@@ -11,6 +11,7 @@
     <thead>
         <tr>
             <th>ID Comandă</th>
+            <th>Status Comandă</th>
             <th>Produs</th>
             <th>Cantitate</th>
             <th>Preț Unitar</th>
@@ -25,6 +26,25 @@
                 <td>
                     @* Afișăm ID-ul comenzii pentru a ști din ce colet face parte produsul *@
                     <strong>#@Html.DisplayFor(modelItem => item.OrderId)</strong>
+                </td>
+                <td>
+                    @* Logica de culori în funcție de statusul din Order *@
+                    @if (item.Order.Status == "Pending")
+                    {
+                        <span class="badge bg-warning text-dark">⏳ Pending</span>
+                    }
+                    else if (item.Order.Status == "Paid")
+                    {
+                        <span class="badge bg-success">✅ Paid (To Ship)</span>
+                    }
+                    else if (item.Order.Status == "Shipped")
+                    {
+                        <span class="badge bg-primary">🚚 Shipped</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@item.Order.Status</span>
+                    }
                 </td>
                 <td>
                     @* Produsul care trebuie pregătit *@
