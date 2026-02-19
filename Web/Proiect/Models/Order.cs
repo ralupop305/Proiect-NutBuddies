@@ -17,5 +17,5 @@ public class Order
     [Required, StringLength(20)]
     public string Status { get; set; } = "Pending"; // Pending/Paid/Shipped/Delivered/Cancelled
 
-    public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

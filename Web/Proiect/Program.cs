@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Proiect.Data;
@@ -115,18 +115,27 @@ using (var scope = app.Services.CreateScope())
     }
     
 
-    var adminEmail = "sabina@nutbuddies.ro";
+    var ralucaAdminEmail = "ralucaAdmin@gmail.com";
+    var ralucaAdminUser = await userManager.FindByEmailAsync(ralucaAdminEmail);
 
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
-    if (adminUser != null)
+    if (ralucaAdminUser == null)
     {
-        if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+        var newAdmin = new IdentityUser
         {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
+            UserName = ralucaAdminEmail,
+            Email = ralucaAdminEmail,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(newAdmin, "ParolaAdmin123!");
+
+        if (result.Succeeded)
+        {
+            // atribuire rol de Admin
+            await userManager.AddToRoleAsync(newAdmin, "Admin");
         }
     }
-    
+
     var admin2Email = "raluca@gmail.com";
 
     var admin2User = await userManager.FindByEmailAsync(admin2Email);
@@ -137,6 +146,22 @@ using (var scope = app.Services.CreateScope())
         {
             await userManager.AddToRoleAsync(admin2User, "Admin");
         }
+    }
+
+    var regularUserEmail = "client@gmail.com";
+    var regularUser = await userManager.FindByEmailAsync(regularUserEmail);
+
+    if (regularUser == null)
+    {
+        var newUser = new IdentityUser
+        {
+            UserName = regularUserEmail,
+            Email = regularUserEmail,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(newUser, "User123!");
+
     }
 }
 

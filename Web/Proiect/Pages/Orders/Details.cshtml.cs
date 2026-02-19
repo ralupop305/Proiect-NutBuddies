@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,8 +27,12 @@ namespace Proiect.Pages.Orders
             {
                 return NotFound();
             }
-
-            var order = await _context.Orders.FirstOrDefaultAsync(m => m.Id == id);
+            // Modificarea de aici aduce și produsele (OrderItems) și detaliile lor (Product)
+            var order = await _context.Orders
+                    .Include(o => o.OrderItems)      // Include lista de produse a comenzii
+                        .ThenInclude(oi => oi.Product) // Pentru fiecare produs, include numele și prețul din tabelul Products
+                    .FirstOrDefaultAsync(m => m.Id == id); 
+            
             if (order == null)
             {
                 return NotFound();

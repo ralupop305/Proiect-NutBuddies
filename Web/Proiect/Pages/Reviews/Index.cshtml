@@ -1,15 +1,21 @@
-@page
+﻿@page
 @model Proiect.Pages.Reviews.IndexModel
 
 @{
     ViewData["Title"] = "Reviews";
+    var isAdmin = User.Identity?.Name != null && 
+                  User.Identity.Name.Contains("ralucaAdmin", StringComparison.OrdinalIgnoreCase);
 }
 
 <h1>Reviews</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+@if (!isAdmin)
+{
+    <p>
+        <a asp-page="Create" class="btn btn-primary">Create New Review</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -44,10 +50,18 @@
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            @if (isAdmin)
+    {
+        @* Adminul vede doar Details și Delete *@
+        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> @:|
+        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+    }
+    else
+    {
+        @* Clientul vede DOAR Details *@
+        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+    }
+        </td>
         </tr>
 }
     </tbody>

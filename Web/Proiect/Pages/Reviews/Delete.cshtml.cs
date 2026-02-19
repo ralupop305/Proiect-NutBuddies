@@ -24,6 +24,7 @@ namespace Proiect.Pages.Reviews
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (User.Identity?.Name != "ralucaAdmin@gmail.com") return Forbid();
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +45,7 @@ namespace Proiect.Pages.Reviews
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
+            if (User.Identity?.Name != "ralucaAdmin@gmail.com") return Forbid();
             if (id == null)
             {
                 return NotFound();

@@ -60,16 +60,22 @@ public class OrdersController : ControllerBase
         {
             var p = products.First(x => x.Id == item.ProductId);
 
-            order.Items.Add(new OrderItem
+            // 1. VERIFICARE STOC: Dacă nu sunt destule produse, oprim totul
+            if (p.StockQty < item.Quantity)
+            {
+                return BadRequest($"Stoc insuficient pentru {p.Name}. Disponibil: {p.StockQty}");
+            }
+
+            // 2. SCĂDERE STOC: Actualizăm cifra din tabelul Products
+            p.StockQty -= item.Quantity;
+
+            // 3. ADĂUGARE ÎN COMANDĂ: Folosim numele corect "OrderItems" din modelul tău
+            order.OrderItems.Add(new OrderItem
             {
                 ProductId = p.Id,
                 Quantity = item.Quantity,
                 UnitPrice = p.Price
             });
-
-            // dacă vrei să scazi stocul și ai StockQty:
-            // if (p.StockQty < item.Quantity) return BadRequest($"Not enough stock for {p.Name}.");
-            // p.StockQty -= item.Quantity;
         }
 
         _db.Orders.Add(order);

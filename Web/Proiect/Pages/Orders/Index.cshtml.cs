@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +23,21 @@ namespace Proiect.Pages.Orders
 
         public async Task OnGetAsync()
         {
-            Order = await _context.Orders.ToListAsync();
+            var currentUserEmail = User.Identity?.Name;
+
+            // email-ul de admin
+            if (currentUserEmail == "ralucaAdmin@gmail.com")
+            {
+                // Adminul vede absolut tot
+                Order = await _context.Orders.ToListAsync();
+            }
+            else
+            {
+                // Clientul vede doar comenzile care îi aparțin (identificate prin email-ul din nume)
+                Order = await _context.Orders
+                    .Where(o => o.CustomerName.Contains(currentUserEmail))
+                    .ToListAsync();
+            }
         }
     }
 }

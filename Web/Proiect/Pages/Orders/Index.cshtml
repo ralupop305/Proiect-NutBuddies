@@ -3,12 +3,14 @@
 
 @{
     ViewData["Title"] = "Orders";
+    // Definire admin
+    var isAdmin = User.Identity?.Name == "ralucaAdmin@gmail.com";
 }
 
 <h1>Orders</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -41,12 +43,34 @@
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @if (item.Status == "Pending")
+                {
+                    <span class="badge bg-warning text-dark">Pending</span>
+                }
+                else if (item.Status == "Paid")
+                {
+                    <span class="badge bg-success">Paid</span>
+                }
+                else if (item.Status == "Shipped")
+                {
+                    <span class="badge bg-primary">Shipped</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@item.Status</span>
+                }
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                @if (isAdmin)
+                {
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> @:|
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> @:|
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                }
+                else
+                {
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                }
             </td>
         </tr>
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,25 +19,41 @@ namespace Proiect.Pages.Reviews
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? productId)
         {
-        ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
+            if (User.Identity?.Name == "ralucaAdmin@gmail.com") return Forbid();
+            if (productId != null)
+            {
+                // Folosim proprietatea ProductId din modelul tău
+                Review = new Review { ProductId = productId.Value };
+            }
+
+            // Corecție: _context.Products (cu 's')
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return Page();
         }
 
-        [BindProperty]
-        public Review Review { get; set; } = default!;
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (User.Identity?.Name == "ralucaAdmin@gmail.com") return Forbid();
+            // 1. Curățăm validările automate pentru a evita eroarea de Foreign Key
+            ModelState.Clear();
+
+            // 2. Mapăm datele conform modelului tău Review
+            Review.UserId = User.Identity?.Name; // Aici am schimbat din UserEmail în UserId
+            Review.CreatedAt = DateTime.Now;
+
+            // 3. Validare manuală pentru a asigura integritatea bazei de date
+            if (Review.ProductId <= 0)
             {
+                ModelState.AddModelError(string.Empty, "Produsul nu a fost selectat corect.");
+                ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
                 return Page();
             }
 
+            // 4. Salvarea în baza de date
             _context.Reviews.Add(Review);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // Acum va trece de verificarea SQLite
 
             return RedirectToPage("./Index");
         }
