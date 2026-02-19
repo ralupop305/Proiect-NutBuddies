@@ -35,4 +35,26 @@
             <a asp-page="/Products/Index" class="btn btn-lg btn-success shadow">Explorează Bunătățile</a>
         </div>
     }
+    @* Imaginea cu borcanul poziționată strategic sub conținut *@
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                    <img src="~/images/borcan.jpg"
+                         class="img-fluid w-100"
+                         alt="Unt de arahide artizanal NutBuddies"
+                         style="max-height: 450px; object-fit: cover; transition: transform 0.5s ease;"
+                         onmouseover="this.style.transform='scale(1.03)'"
+                         onmouseout="this.style.transform='scale(1)'">
+
+                    @* Overlay discret pentru un aspect profesional *@
+                    <div class="card-img-overlay d-flex align-items-end justify-content-center p-3">
+                        <span class="badge px-3 py-2 shadow-sm" style="background-color: rgba(63, 101, 80, 0.8); font-size: 0.9rem;">
+                            🍃 100% Natural & Proaspăt
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
