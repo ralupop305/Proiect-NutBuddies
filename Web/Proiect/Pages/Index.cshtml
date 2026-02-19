@@ -1,9 +1,38 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Acasă";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="text-center mt-5">
+    <h1 class="display-4 fw-bold" style="color: #5d4037;">🥜 Bine ai venit la NutBuddies!</h1>
+
+    <div class="container mt-4">
+        <p class="lead" style="color: #795548; font-size: 1.25rem;">
+            Aici, pasiunea pentru gustul natural se întâlnește cu calitatea artizanală.
+            Suntem <strong>NutBuddies</strong>, prietenii tăi de nădejde când vine vorba de cele mai fine
+            unturi de arahide, migdale și caju, proaspăt pregătite pentru a-ți transforma micul dejun într-un răsfăț!
+        </p>
+
+        <p class="text-muted italic">Fără zahăr adăugat, fără uleiuri hidrogenate – doar nuci și multă dragoste.</p>
+    </div>
+
+    @if (User.Identity?.IsAuthenticated != true)
+    {
+        <div class="alert alert-warning d-inline-block mt-4 px-5 shadow-sm" role="alert">
+            <h5 class="alert-heading">✨ Poftă de ceva bun?</h5>
+            <p class="mb-0">
+                Poți explora produsele noastre chiar acum, dar pentru a plasa o comandă și a ne spune părerea ta,
+                te rugăm să îți <strong>creezi un cont de client</strong>.
+            </p>
+            <hr>
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-dark btn-sm">Înregistrare</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <a asp-page="/Products/Index" class="btn btn-lg btn-success shadow">Explorează Bunătățile</a>
+        </div>
+    }
 </div>

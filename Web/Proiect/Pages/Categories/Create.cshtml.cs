@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +23,13 @@ namespace Proiect.Pages.Categories
 
         public IActionResult OnGet()
         {
+            bool isAdmin = User.Identity?.Name != null &&
+                   User.Identity.Name.Equals("ralucaAdmin", StringComparison.OrdinalIgnoreCase);
+
+            if (!isAdmin)
+            {
+                return Forbid(); // Blochează accesul clienților la formularul de creare
+            }
             return Page();
         }
 

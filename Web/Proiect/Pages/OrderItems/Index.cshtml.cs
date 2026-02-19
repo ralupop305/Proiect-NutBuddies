@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,11 +21,24 @@ namespace Proiect.Pages.OrderItems
 
         public IList<OrderItem> OrderItem { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            // Verificăm dacă utilizatorul este adminul nostru
+            var isAdmin = User.Identity?.Name != null &&
+                          User.Identity.Name.Contains("ralucaAdmin", StringComparison.OrdinalIgnoreCase);
+
+            // Dacă NU este admin, îi blocăm accesul instant
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+
+            // Dacă este admin, încărcăm lista de produse din toate comenzile
             OrderItem = await _context.OrderItems
                 .Include(o => o.Order)
                 .Include(o => o.Product).ToListAsync();
+
+            return Page();
         }
     }
 }

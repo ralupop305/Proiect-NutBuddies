@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +24,13 @@ namespace Proiect.Pages.Categories
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            bool isAdmin = User.Identity?.Name != null &&
+                   User.Identity.Name.Equals("ralucaAdmin", StringComparison.OrdinalIgnoreCase);
+
+            if (!isAdmin)
+            {
+                return Forbid(); // Blochează clientul din a vedea pagina de ștergere
+            }
             if (id == null)
             {
                 return NotFound();

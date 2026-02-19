@@ -24,22 +24,34 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/Categories/Index">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/Products/Index">Products</a>
-                    </li>
-                    <li class="nav-item">
-    <a class="nav-link text-dark" asp-page="/Orders/Index">Orders</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link text-dark" asp-page="/OrderItems/Index">OrderItems</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link text-dark" asp-page="/Reviews/Index">Reviews</a>
-</li>
-                </ul>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            @* Definirea variabilei de Admin pentru a fi folosita mai jos *@
+                            var isAdmin = User.Identity.Name != null && User.Identity.Name.Contains("ralucaAdmin", StringComparison.OrdinalIgnoreCase);
+
+                            @* 1. SECȚIUNI VIZIBILE PENTRU TOȚI (Admin + Client) *@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Categories/Index">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Products/Index">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Orders/Index">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Reviews/Index">Reviews</a>
+                            </li>
+
+                            @* 2. SECȚIUNE EXCLUSIVĂ PENTRU ADMIN (NutBuddies Packing List) *@
+                            @if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger fw-bold" asp-page="/OrderItems/Index">📋 Listă Expediție</a>
+                                </li>
+                            }
+                        }
+                    </ul>
                 <partial name="_LoginPartial" />
 
             </div>

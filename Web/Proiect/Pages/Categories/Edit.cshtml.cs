@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +25,14 @@ namespace Proiect.Pages.Categories
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            // Verificăm dacă este admin
+            var isAdmin = User.Identity?.Name != null &&
+                          User.Identity.Name.Contains("ralucaAdmin", StringComparison.OrdinalIgnoreCase);
+
+            if (!isAdmin)
+            {
+                return Forbid(); // Îi dă "Access Denied" clientului care încearcă să intre aici
+            }
             if (id == null)
             {
                 return NotFound();
