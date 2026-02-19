@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NutBuddiesApp.Views.StartPage"
+             BackgroundColor="#F8F7F3"
+             Title="Welcome">
+
+    <VerticalStackLayout Padding="24"
+                         Spacing="24"
+                         VerticalOptions="Center">
+
+       
+        <Image Source="products.png"
+               HeightRequest="160"
+               HorizontalOptions="Center" />
+
+        
+        <Label Text="NutBuddies 🥜"
+               FontSize="36"
+               FontAttributes="Bold"
+               TextColor="#3D3A2A"
+               HorizontalOptions="Center" />
+
+     
+        <Label Text="Love at first spread."
+               FontSize="16"
+               TextColor="#6B705C"
+               HorizontalTextAlignment="Center" />
+
+     
+        <Button Text="Start shopping"
+                HeightRequest="56"
+                FontSize="18"
+                CornerRadius="18"
+                BackgroundColor="#9BAE8A"
+                TextColor="White"
+                Clicked="OnStartClicked"/>
+
+    </VerticalStackLayout>
+
+</ContentPage>

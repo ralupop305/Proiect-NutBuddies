@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="NutBuddiesApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:NutBuddiesApp"
+    xmlns:views="clr-namespace:NutBuddiesApp.Views"
+   
+    Shell.FlyoutBehavior="Disabled"
+    Title="NutBuddiesApp">
+    <ShellContent
+        Route="start"
+        ContentTemplate="{DataTemplate views:StartPage}" />
+    
+    <TabBar>
+        <ShellContent Title=" Products"
+                      Route="products"
+                      ContentTemplate="{DataTemplate views:ProductsPage}"
+                      Icon = "peanut_butter.png"/>
+        
+
+        <ShellContent Title="Cart"
+                      ContentTemplate="{DataTemplate views:CartPage}"
+                      Icon = "shopping_cart.png"/>
+        <ShellContent Title="Login"
+                      ContentTemplate="{DataTemplate views:LoginPage}" 
+                      Icon = "avatar.png"/>
+    </TabBar>
+
+</Shell>

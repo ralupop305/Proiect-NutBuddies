@@ -1,0 +1,68 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-sm-10 col-md-8 col-lg-5">
+        <div class="card shadow-sm rounded-4 border-0">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-1">Welcome back</h2>
+                    <p class="text-muted mb-0">Sign in to continue</p>
+                </div>
+
+                <form id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3" role="alert"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control rounded-3" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label asp-for="Input.Email" class="form-label">Email address</label>
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-floating mb-2 position-relative">
+                        <input asp-for="Input.Password" class="form-control rounded-3" autocomplete="current-password" aria-required="true" placeholder="password" id="passwordInput" />
+                        <label asp-for="Input.Password" class="form-label">Password</label>
+                        <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" id="togglePassword" aria-label="Show password">Show</button>
+                        <span asp-validation-for="Input.Password" class="text-danger small d-block mt-1"></span>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        <label class="form-check-label" asp-for="Input.RememberMe"></label>
+                    </div>
+
+                    <button id="login-submit" type="submit" class="btn btn-primary w-100 py-2 rounded-3">Sign in</button>
+
+                    <div class="text-center mt-3">
+                        <p class="mb-1"><a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a></p>
+                        <p class="mb-1"><a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create an account</a></p>
+                        <p class="mb-0"><a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @* Removed external login section and informational text as requested *@
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function(){
+            const btn = document.getElementById('togglePassword');
+            const input = document.getElementById('passwordInput');
+            if(btn && input){
+                btn.addEventListener('click', function(){
+                    const isPwd = input.getAttribute('type') === 'password';
+                    input.setAttribute('type', isPwd ? 'text' : 'password');
+                    btn.textContent = isPwd ? 'Hide' : 'Show';
+                    btn.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
+                });
+            }
+        })();
+    </script>
+}

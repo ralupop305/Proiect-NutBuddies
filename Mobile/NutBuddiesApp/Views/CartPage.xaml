@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NutBuddiesApp.Views.CartPage"
+             Title="Cart">
+
+    <Grid RowDefinitions="*,Auto" Padding="12">
+
+        <!-- Zona scroll-abilă: total + listă + input -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="10">
+
+                <Label x:Name="TotalLabel"
+                       FontAttributes="Bold"
+                       FontSize="18" />
+
+                <CollectionView x:Name="CartList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="12" Margin="0,6">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" />
+                                    <Label Text="{Binding Price, StringFormat='Price: {0} RON'}" FontSize="12" />
+                                    <Label Text="{Binding LineTotal, StringFormat='Line total: {0} RON'}" FontSize="12" />
+
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Button Text="-" Clicked="OnMinusClicked" CommandParameter="{Binding .}" />
+                                        <Label Text="{Binding Quantity}" VerticalOptions="Center"/>
+                                        <Button Text="+" Clicked="OnPlusClicked" CommandParameter="{Binding .}" />
+                                        <Button Text="Remove" Clicked="OnRemoveClicked" CommandParameter="{Binding .}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Clear cart" Clicked="OnClearClicked"/>
+
+                <Label x:Name="EmptyLabel"
+                       Text="Cart is empty."
+                       IsVisible="False" />
+
+                <Label
+                    Text="Details for your order"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="0,16,0,4" />
+                <Entry x:Name="NameEntry" Placeholder="Name" />
+                <Entry x:Name="PhoneEntry" Placeholder="Phone" Keyboard="Telephone" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <Button Grid.Row="1"
+                Text="Place order"
+                BackgroundColor="{StaticResource Tertiary}"
+                TextColor="White"
+                HeightRequest="56"
+                Clicked="OnPlaceOrderClicked"/>
+
+    </Grid>
+</ContentPage>

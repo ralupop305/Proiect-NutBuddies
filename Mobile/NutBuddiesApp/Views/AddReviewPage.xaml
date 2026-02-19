@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NutBuddiesApp.Views.AddReviewPage"
+             Title="Add review">
+
+    <VerticalStackLayout Padding="20" Spacing="12">
+
+        <Label x:Name="ProductLabel" FontAttributes="Bold" FontSize="18" />
+
+        <Label Text="Rating (1-5)" />
+        <Stepper x:Name="RatingStepper"
+                 Minimum="1" Maximum="5"
+                 Increment="1"
+                 ValueChanged="OnRatingChanged"/>
+        <Label x:Name="RatingLabel" Text="Rating: 5" />
+
+        <Label Text="Comment" />
+        <Editor x:Name="CommentEditor"
+                AutoSize="TextChanges"
+                Placeholder="Write your review..."
+                HeightRequest="120"/>
+
+        <Button Text="Submit"
+                Clicked="OnSubmitClicked" />
+
+        <Label x:Name="ErrorLabel" TextColor="Red" />
+
+    </VerticalStackLayout>
+</ContentPage>
