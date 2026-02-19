@@ -107,7 +107,7 @@ namespace Proiect.Pages.Orders
                     });
                 }
             }
-
+            Order.Status = "Pending";
             // 4. Salvarea efectivă în baza de date
             _context.Orders.Add(Order);
             await _context.SaveChangesAsync();
