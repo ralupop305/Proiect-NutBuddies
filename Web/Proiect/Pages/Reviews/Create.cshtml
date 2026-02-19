@@ -1,8 +1,8 @@
-@page
+﻿@page
 @model Proiect.Pages.Reviews.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Review";
 }
 
 <h1>Create</h1>
@@ -14,25 +14,19 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Review.Rating" class="control-label"></label>
-                <input asp-for="Review.Rating" class="form-control" />
-                <span asp-validation-for="Review.Rating" class="text-danger"></span>
+                <label asp-for="NewReview.Rating" class="control-label">Notă (1-5)</label>
+                <input asp-for="NewReview.Rating" class="form-control" type="number" min="1" max="5" />
+                <span asp-validation-for="NewReview.Rating" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Review.Comment" class="control-label"></label>
-                <input asp-for="Review.Comment" class="form-control" />
-                <span asp-validation-for="Review.Comment" class="text-danger"></span>
+                <label asp-for="NewReview.Comment" class="control-label">Comentariu</label>
+                <textarea asp-for="NewReview.Comment" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="NewReview.Comment" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Review.CreatedAt" class="control-label"></label>
-                <input asp-for="Review.CreatedAt" class="form-control" />
-                <span asp-validation-for="Review.CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Review.ProductId" class="control-label"></label>
-                <select asp-for="Review.ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>
-            </div>
-            <div class="form-group">
+            <input type="hidden" asp-for="NewReview.ProductId" />
+
+            <div class="form-group mt-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -43,3 +37,8 @@
     <a asp-page="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

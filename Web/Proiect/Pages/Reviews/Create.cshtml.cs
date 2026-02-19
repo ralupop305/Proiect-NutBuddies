@@ -18,42 +18,36 @@ namespace Proiect.Pages.Reviews
         {
             _context = context;
         }
-
+        [BindProperty]
+        public Review NewReview { get; set; } = default!; // Am schimbat numele  pt a rezolva eroarea cu review
         public IActionResult OnGet(int? productId)
         {
-            if (User.Identity?.Name == "ralucaAdmin@gmail.com") return Forbid();
             if (productId != null)
             {
-                // Folosim proprietatea ProductId din modelul tău
-                Review = new Review { ProductId = productId.Value };
+                NewReview = new Review { ProductId = productId.Value };
             }
 
-            // Corecție: _context.Products (cu 's')
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (User.Identity?.Name == "ralucaAdmin@gmail.com") return Forbid();
-            // 1. Curățăm validările automate pentru a evita eroarea de Foreign Key
             ModelState.Clear();
 
-            // 2. Mapăm datele conform modelului tău Review
-            Review.UserId = User.Identity?.Name; // Aici am schimbat din UserEmail în UserId
-            Review.CreatedAt = DateTime.Now;
+            // Folosim NewReview peste tot
+            NewReview.UserId = User.Identity?.Name;
+            NewReview.CreatedAt = DateTime.Now;
 
-            // 3. Validare manuală pentru a asigura integritatea bazei de date
-            if (Review.ProductId <= 0)
+            if (NewReview.ProductId == 0)
             {
-                ModelState.AddModelError(string.Empty, "Produsul nu a fost selectat corect.");
+                ModelState.AddModelError("", "Eroare: Produsul nu a fost identificat.");
                 ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
                 return Page();
             }
 
-            // 4. Salvarea în baza de date
-            _context.Reviews.Add(Review);
-            await _context.SaveChangesAsync(); // Acum va trece de verificarea SQLite
+            _context.Reviews.Add(NewReview);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
